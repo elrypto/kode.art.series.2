@@ -1,7 +1,8 @@
 import React from "react";
 import { CryptoUtils, Client, LoomProvider, LocalAddress } from "loom-js";
-import Web3 from "web3";
 import { LoomConnectionInfo, LoomObject } from "../../common/Interfaces";
+import { ethers } from 'ethers';
+import { Store } from "../../common/Store";
 
 
 /* based on loom truffle example, contract.js file, adapted to react hooks
@@ -17,8 +18,11 @@ export const DEFAULT_LOCAL_DEV = {
 };
 
 
-export default function useLoom(connectionInfo: LoomConnectionInfo) {
-  if (!connectionInfo) {
+export default function useLoom() {
+  const { state } = React.useContext(Store);
+  let connectionInfo: LoomConnectionInfo = {} as LoomConnectionInfo;
+
+  if (!state.loomConnectionInfo) {
     connectionInfo = DEFAULT_LOCAL_DEV;
   }
 
@@ -28,34 +32,32 @@ export default function useLoom(connectionInfo: LoomConnectionInfo) {
     client: {} as Client,
     privateKey: {} as Uint8Array,
     publicKey:  {} as Uint8Array,
-    web3: {} as Web3,
+    ethersProvider: null,
     currentNetwork: '',
-    currentUserAddress: '',
-    ethersProvider: null
+    currentUserAddress: ''    
   };
 
+
   React.useEffect(() => {
-    
     loomObj.connectionInfo = connectionInfo;
-
-    //console.log("useLoom.useEffect([])");
-    // console.log("useLoom with contract:", Loom.contract);
-    // console.log("useLoom with connectionInfo:", Loom.connectionInfo);
-
-    const initialize = async () => {
-      //console.log("useLoom.useEffect([]).initialize()");
-      await createClient();
-      loomObj.currentUserAddress = LocalAddress.fromPublicKey(
-        loomObj.publicKey
-      ).toString();
+      const initialize = async () => {
+        await createClient();
+        loomObj.currentUserAddress = LocalAddress.fromPublicKey(
+          loomObj.publicKey
+        ).toString();
 
       let loomProvider = new LoomProvider(loomObj.client, loomObj.privateKey);
-      //loomObj.web3 = new Web3(loomProvider);
-      
+      loomObj.ethersProvider = new ethers.providers.Web3Provider(loomProvider);
     };
-    initialize();
-  }, []);
 
+    if (state.loomConnectionInfo){
+      initialize();
+    }
+  }, [state.loomConnectionInfo]);
+
+
+
+  /* returning if they are looking for a response */
   return loomObj;
 
   async function createClient() {
@@ -67,7 +69,8 @@ export default function useLoom(connectionInfo: LoomConnectionInfo) {
       loomObj.connectionInfo.readUrl
     );
 
-  /*  loomObj.client.on("error", msg => {
+    /*
+    loomObj.client.on("error", (msg: any) => {
       console.error("Error on connect to client", msg);
       console.warn("Please verify if loom command is running");
     });*/

@@ -8,6 +8,7 @@ import { LoomObject } from '../common/Interfaces';
 import Web3 from 'web3';
 import { notify } from '../common/Actions';
 import useLoadLoomConfig from '../components/hooks/useLoadLoomConfig';
+import useLoom from '../components/hooks/useLoom';
 
 const someTopSpace = {
   marginTop: '2em'
@@ -18,8 +19,8 @@ export default function Test() {
   useInjectedWeb3();
   useLoadInjectedWeb3State();
   useLoadLoomConfig();
-  //useLoadLoomObj();
-  
+  useLoom();
+
   console.log("config from state", state.loomConnectionInfo);
   
   return (
