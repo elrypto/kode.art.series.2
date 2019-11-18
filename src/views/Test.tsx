@@ -9,10 +9,8 @@ import Web3 from 'web3';
 import { notify } from '../common/Actions';
 import useLoadLoomConfig from '../components/hooks/useLoadLoomConfig';
 import useLoom from '../components/hooks/useLoom';
+import { ethers } from 'ethers';
 
-const someTopSpace = {
-  marginTop: '2em'
-}
 
 export default function Test() {
   const { state, dispatch } = React.useContext(Store);
@@ -58,9 +56,9 @@ export default function Test() {
               onClick={async() => {
                 let l: LoomObject = state.loomObj;
                 console.log(l);
-                let w3: Web3 = l.web3;
+                let w3: ethers.providers.Web3Provider = l.web3;
                 console.log(w3);
-                let bh = await w3.eth.getBlockNumber();
+                let bh = await w3.getBlockNumber();
                 notify('current block height:' + bh);
               }}
              >

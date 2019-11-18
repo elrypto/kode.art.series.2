@@ -18,7 +18,7 @@ export const DEFAULT_LOCAL_DEV = {
 };
 
 
-export default function useLoom() {
+export default function useLoom2() {
   const { state } = React.useContext(Store);
   let connectionInfo: LoomConnectionInfo = {} as LoomConnectionInfo;
 
@@ -40,7 +40,7 @@ export default function useLoom() {
 
   React.useEffect(() => {
     loomObj.connectionInfo = connectionInfo;
-      const initialize = async () => {
+       const initialize = async () => {
         await createClient();
         loomObj.currentUserAddress = LocalAddress.fromPublicKey(
           loomObj.publicKey
@@ -63,11 +63,15 @@ export default function useLoom() {
   async function createClient() {
     loomObj.privateKey = CryptoUtils.generatePrivateKey();
     loomObj.publicKey = CryptoUtils.publicKeyFromPrivateKey(loomObj.privateKey);
+    console.log('loom obj:', loomObj);
+    
     loomObj.client = new Client(
       loomObj.connectionInfo.networkId,
       loomObj.connectionInfo.writeUrl,
       loomObj.connectionInfo.readUrl
     );
+
+    console.log('loom obj:', loomObj);
 
     /*
     loomObj.client.on("error", (msg: any) => {
