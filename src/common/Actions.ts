@@ -39,9 +39,9 @@ export const rpcStatus = async():Promise<boolean> => {
 export const createLoomContractInstance = async(loom: LoomObject, contract: any) => {
   const network = await loom.web3.getNetwork();
   console.log('nework', network);
-  loom.currentNetwork = contract.networks[network.chainId];
+  let address = contract.networks[network.chainId].address;
 
-  if (!loom.currentNetwork) {
+  if (!address) {
     console.error(
       "not a valid network: , network id was:",
       loom.currentNetwork,
@@ -50,16 +50,6 @@ export const createLoomContractInstance = async(loom: LoomObject, contract: any)
     throw Error("Contract not deployed on DAppChain (network id error)");
   }
 
-  //let c = new ethers.Contract(loom.currentNetwork.address, contract, loom.web3);
-
-/*
-  let c = new loom.web3.Contract(
-    loom.contract.abi,
-    //loom.currentNetwork.address,
-    loom.currentNetwork.address,
-    {
-      from: loom.currentUserAddress
-    }
-  );*/
+  return new ethers.Contract(address, contract.abi, loom.web3);
 }
 

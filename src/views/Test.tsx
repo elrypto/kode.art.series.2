@@ -69,7 +69,12 @@ export default function Test() {
                 let loom: LoomObject = state.loomObj;
                 console.log(loom);
                 let w3: ethers.providers.Web3Provider = loom.web3;
-                await createLoomContractInstance(state.loomObj, SimpleStore);
+                
+                let sstore = await createLoomContractInstance(state.loomObj, SimpleStore);
+                await sstore.set(321, { from: state.loomObj.currentUserAddress });
+
+                let retval = await sstore.get()
+              
               }}
              >
                Contract Test

@@ -11,6 +11,10 @@
 # production
 /build
 
+#contracts
+/src/contracts/loom
+/src/contracts/eth
+
 # misc
 .DS_Store
 .env
