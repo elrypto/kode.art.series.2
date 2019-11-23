@@ -8,14 +8,15 @@ import { notify, createLoomContractInstance } from '../common/Actions';
 import useLoadLoomConfig from '../components/hooks/useLoadLoomConfig';
 import useLoom from '../components/hooks/useLoom';
 import { ethers } from 'ethers';
+import SimpleStore from './../contracts/loom/SimpleStore.json';
 
 
 export default function Test() {
   const { state, dispatch } = React.useContext(Store);
   useInjectedWeb3();
   useLoadInjectedWeb3State();
- // useLoadLoomConfig();
- // useLoom();
+  useLoadLoomConfig();
+  useLoom();
 
   //console.log("config from state", state.loomConnectionInfo);
   
@@ -65,10 +66,10 @@ export default function Test() {
              <Button
               type="dashed"
               onClick={async() => {
-                let l: LoomObject = state.loomObj;
-                console.log(l);
-                let w3: ethers.providers.Web3Provider = l.web3;
-                await createLoomContractInstance(state.loomObj, '');
+                let loom: LoomObject = state.loomObj;
+                console.log(loom);
+                let w3: ethers.providers.Web3Provider = loom.web3;
+                await createLoomContractInstance(state.loomObj, SimpleStore);
               }}
              >
                Contract Test

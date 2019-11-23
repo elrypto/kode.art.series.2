@@ -39,7 +39,7 @@ export const rpcStatus = async():Promise<boolean> => {
 export const createLoomContractInstance = async(loom: LoomObject, contract: any) => {
   const network = await loom.web3.getNetwork();
   console.log('nework', network);
-  loom.currentNetwork = loom.contract.networks[network.chainId];
+  loom.currentNetwork = contract.networks[network.chainId];
 
   if (!loom.currentNetwork) {
     console.error(
