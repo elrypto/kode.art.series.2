@@ -14,10 +14,10 @@ export default function Test() {
   const { state, dispatch } = React.useContext(Store);
   useInjectedWeb3();
   useLoadInjectedWeb3State();
-  useLoadLoomConfig();
-  useLoom();
+ // useLoadLoomConfig();
+ // useLoom();
 
-  console.log("config from state", state.loomConnectionInfo);
+  //console.log("config from state", state.loomConnectionInfo);
   
   return (
     <div className="offset">
