@@ -3,10 +3,8 @@ import { Button } from 'antd';
 import useInjectedWeb3 from '../components/hooks/useInjectedWeb3';
 import { Store } from '../common/Store';
 import useLoadInjectedWeb3State from '../components/hooks/useLoadInjectedWeb3State';
-import useLoadLoomObj from './../components/hooks/useLoadLoomObj';
 import { LoomObject } from '../common/Interfaces';
-import Web3 from 'web3';
-import { notify } from '../common/Actions';
+import { notify, createLoomContractInstance } from '../common/Actions';
 import useLoadLoomConfig from '../components/hooks/useLoadLoomConfig';
 import useLoom from '../components/hooks/useLoom';
 import { ethers } from 'ethers';
@@ -54,9 +52,9 @@ export default function Test() {
              <Button
               type="dashed"
               onClick={async() => {
-                let l: LoomObject = state.loomObj;
-                console.log(l);
-                let w3: ethers.providers.Web3Provider = l.web3;
+                let loom: LoomObject = state.loomObj;
+                console.log(loom);
+                let w3: ethers.providers.Web3Provider = loom.web3;
                 console.log(w3);
                 let bh = await w3.getBlockNumber();
                 notify('current block height:' + bh);
@@ -64,6 +62,20 @@ export default function Test() {
              >
                Blockheight Test
              </Button>
+             <Button
+              type="dashed"
+              onClick={async() => {
+                let l: LoomObject = state.loomObj;
+                console.log(l);
+                let w3: ethers.providers.Web3Provider = l.web3;
+                await createLoomContractInstance(state.loomObj, '');
+              }}
+             >
+               Contract Test
+             </Button>
+           
+           
+           
             </div>
 
           </div>

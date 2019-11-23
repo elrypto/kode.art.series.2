@@ -1,6 +1,8 @@
 import _ from "lodash";
 import { toast } from "react-toastify";
 import Axios from "axios";
+import { LoomObject } from "./Interfaces";
+import { ethers } from "ethers";
 
 
 
@@ -31,5 +33,33 @@ export const rpcStatus = async():Promise<boolean> => {
     console.error("Could not connect to server on rpc check");
     return false;
   }
+}
+
+
+export const createLoomContractInstance = async(loom: LoomObject, contract: any) => {
+  const network = await loom.web3.getNetwork();
+  console.log('nework', network);
+  loom.currentNetwork = loom.contract.networks[network.chainId];
+
+  if (!loom.currentNetwork) {
+    console.error(
+      "not a valid network: , network id was:",
+      loom.currentNetwork,
+      network.chainId
+    );
+    throw Error("Contract not deployed on DAppChain (network id error)");
+  }
+
+  //let c = new ethers.Contract(loom.currentNetwork.address, contract, loom.web3);
+
+/*
+  let c = new loom.web3.Contract(
+    loom.contract.abi,
+    //loom.currentNetwork.address,
+    loom.currentNetwork.address,
+    {
+      from: loom.currentUserAddress
+    }
+  );*/
 }
 

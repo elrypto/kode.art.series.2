@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import { ethers } from "ethers";
 
 /**
 |--------------------------------------------------
@@ -38,9 +39,8 @@ export interface LoomObject {
   privateKey: Uint8Array|any;
   publicKey: Uint8Array|any;
   currentUserAddress: string;
-  web3?: any;
+  web3: ethers.providers.Web3Provider;
   currentNetwork: string;
-  ethersProvider: any;
 
   connectionInfo: LoomConnectionInfo|any;
 }

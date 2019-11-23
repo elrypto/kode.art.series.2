@@ -32,7 +32,7 @@ export default function useLoom2() {
     client: {} as Client,
     privateKey: {} as Uint8Array,
     publicKey:  {} as Uint8Array,
-    ethersProvider: null,
+    web3: {} as ethers.providers.Web3Provider,
     currentNetwork: '',
     currentUserAddress: ''    
   };
@@ -47,7 +47,7 @@ export default function useLoom2() {
         ).toString();
 
       let loomProvider = new LoomProvider(loomObj.client, loomObj.privateKey);
-      loomObj.ethersProvider = new ethers.providers.Web3Provider(loomProvider);
+      loomObj.web3 = new ethers.providers.Web3Provider(loomProvider);
     };
 
     if (state.loomConnectionInfo){
@@ -80,9 +80,6 @@ export default function useLoom2() {
     });*/
   }
 
-  async function getCurrentNetwork() {
-    return await loomObj.web3.eth.net.getId();
-  }
 }
 
 

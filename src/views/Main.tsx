@@ -1,11 +1,13 @@
 import React from "react";
 import Header from "./Header";
+import { Store } from "../common/Store";
 
 
 export default function Main() {
+  const { state } = React.useContext(Store);
 
-  const attribStyle = {}
-  
+  console.log("state", state);
+
   return (
       <React.Fragment>
         <div id="home">

@@ -38,24 +38,17 @@ export default function useLoom(contractJson, connectionInfo) {
   };
 
   React.useEffect(() => {
-    //TODO!!!: set onEvent
-    Loom.contract = contractJson;
+    
     Loom.connectionInfo = connectionInfo;
 
-    //console.log("useLoom.useEffect([])");
-    // console.log("useLoom with contract:", Loom.contract);
-    // console.log("useLoom with connectionInfo:", Loom.connectionInfo);
-
     const initialize = async () => {
-      //console.log("useLoom.useEffect([]).initialize()");
       await createClient();
       Loom.currentUserAddress = LocalAddress.fromPublicKey(
         Loom.publicKey
       ).toString();
       Loom.web3 = new ethers.providers.Web3Provider(new LoomProvider(Loom.client, Loom.privateKey));
       //Loom.web3 = new Web3(new LoomProvider(Loom.client, Loom.privateKey));
-     // await createContractInstance();
-      
+           
       dispatch ({
         type: ActionType.SET_LOOM_OBJ,
         payload: Loom
@@ -81,30 +74,5 @@ export default function useLoom(contractJson, connectionInfo) {
     });
   }
 
-  async function createContractInstance() {
-    const networkId = await getCurrentNetwork();
-    Loom.currentNetwork = Loom.contract.networks[networkId];
-    //console.log("network:", Loom.currentNetwork);
-
-    if (!Loom.currentNetwork) {
-      console.error(
-        "not a valid network: , network id was:",
-        Loom.currentNetwork,
-        networkId
-      );
-      throw Error("Contract not deployed on DAppChain (network id error)");
-    }
-
-    Loom.instance = new Loom.web3.eth.Contract(
-      Loom.contract.abi,
-      Loom.currentNetwork.address,
-      {
-        from: Loom.currentUserAddress
-      }
-    );
-  }
-
-  async function getCurrentNetwork() {
-    return await Loom.web3.eth.net.getId();
-  }
+  
 }
