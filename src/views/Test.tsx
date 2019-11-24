@@ -8,7 +8,7 @@ import { notify, createLoomContractInstance } from '../common/Actions';
 import useLoadLoomConfig from '../components/hooks/useLoadLoomConfig';
 import useLoom from '../components/hooks/useLoom';
 import { ethers } from 'ethers';
-import SimpleStore from './../contracts/loom/SimpleStore.json';
+import SimpleStr from './../contracts/loom/SimpleStr.json';
 
 
 export default function Test() {
@@ -70,10 +70,25 @@ export default function Test() {
                 console.log(loom);
                 let w3: ethers.providers.Web3Provider = loom.web3;
                 
-                let sstore = await createLoomContractInstance(state.loomObj, SimpleStore);
-                await sstore.set(321, { from: state.loomObj.currentUserAddress });
+               let sstore = await createLoomContractInstance(state.loomObj, SimpleStr);
+               
 
-                let retval = await sstore.get()
+               console.log("contract with signer:", sstore);
+
+              // let tx = await sstore.setStr('yamajadeva');
+              // console.log('tx:', tx);
+               //await tx.wait();
+
+                //connect workaround
+                let options = { gasPrice: 1000000000, gasLimit: 85000, nonce: 45, value: 0 };
+                sstore.connect(loom.web3.getSigner());
+                let tx = await sstore.setStr("yamajavdeva", options);
+  
+                console.log("tx:", tx);
+
+                let retval = await sstore.getStr();
+                console.log('get returned:', retval);
+               
               
               }}
              >

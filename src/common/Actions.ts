@@ -50,6 +50,8 @@ export const createLoomContractInstance = async(loom: LoomObject, contract: any)
     throw Error("Contract not deployed on DAppChain (network id error)");
   }
 
-  return new ethers.Contract(address, contract.abi, loom.web3);
+  //TODO: create here with signer
+  
+  return new ethers.Contract(address, contract.abi, loom.web3.getSigner());
 }
 
