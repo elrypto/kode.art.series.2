@@ -75,13 +75,9 @@ export default function Test() {
 
                console.log("contract with signer:", sstore);
 
-              // let tx = await sstore.setStr('yamajadeva');
-              // console.log('tx:', tx);
-               //await tx.wait();
-
-                //connect workaround
-                let options = { gasPrice: 1000000000, gasLimit: 85000, nonce: 45, value: 0 };
-                sstore.connect(loom.web3.getSigner());
+              
+                //let options = { gasPrice: 1000000000, gasLimit: 85000, nonce: 45, value: 0 };
+                let options = { gasLimit: 85000 };
                 let tx = await sstore.setStr("yamajavdeva", options);
   
                 console.log("tx:", tx);
